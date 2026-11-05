@@ -21,27 +21,27 @@
 ### 1.1. Установка VirtualBox
 
 Установщик Oracle VirtualBox загружен с официального сайта [virtualbox.org](https://www.virtualbox.org/wiki/Downloads). Выполнена установка программного обеспечения со стандартными параметрами конфигурации.
-![site_oracle.png](1/site_oracle.png)
-![download_Oracle.png](1/download_Oracle.png)
+![site_oracle.png](screenshots/site_oracle.png)
+![download_Oracle.png](screenshots/download_Oracle.png)
 
 ### 1.2. Создание виртуальной машины
 
 Установочный образ `debian-13.7.0-amd64-netinst.iso` загружен с официального сайта проекта [debian.org](https://www.debian.org/):
-![site_debian.png](1/site_debian.png)
+![site_debian.png](screenshots/site_debian.png)
 
 В мастере создания виртуальной машины задано имя `Debian` и указан путь к ISO-образу. Виртуальному оборудованию выделены следующие ресурсы согласно заданию:
 - оперативная память: **4096 МБ**;
 - процессор: **1 ЦПУ**;
 - жёсткий диск: **30 ГБ** (динамически распределяемый, формат VDI).
-![cpu_vm.png](1/cpu_vm.png)
-![storage_vm.png](1/storage_vm.png)
+![cpu_vm.png](screenshots/cpu_vm.png)
+![storage_vm.png](screenshots/storage_vm.png)
 
 ---
 
 ## 2. Установка Debian
 
 Установка выполнялась в ручном режиме (без автоматической установки). На этапе выбора программного обеспечения были выбраны только **Standard system utilities** и **SSH server**. Графическая оболочка не устанавливалась изначально для экономии ресурсов.
-![software_selection.png](1/software_selection.png)
+![software_selection.png](screenshots/software_selection.png)
 
 Для получения графического интерфейса после первичной настройки системы был установлен мета-пакет `task-gnome-desktop`, и система переведена в графический режим загрузки:
 ```bash
@@ -54,7 +54,7 @@ sudo reboot
 - Имя компьютера: `debian`;
 - Пользователь: `vladislav`;
 - Пароль `root`: не задан (доступ через `sudo`).
-![vm_debian.png](1/vm_debian.png)
+![vm_debian.png](screenshots/vm_debian.png)
 
 ---
 
@@ -63,7 +63,7 @@ sudo reboot
 ### 3.1. Режим NAT и Bridge
 
 В процессе работы были протестированы оба режима. При переключении на **Bridged Adapter** виртуальная машина получала IP-адрес от локального роутера, однако из-за особенностей сетевой изоляции хоста (ошибка `Destination Host Unreachable`) было принято решение вернуться к режиму **NAT** как к более стабильному и контролируемому для учебной среды. 
-![NAT_vm.png](1/NAT_vm.png)
+![NAT_vm.png](screenshots/NAT_vm.png)
 
 ### 3.2. Обновление системы
 
@@ -74,7 +74,7 @@ sudo apt update
 sudo apt upgrade -y
 ```
 Команды успешно обратились к сетевым репозиториям (`deb.debian.org`, `security.debian.org`). Все пакеты актуализированы.
-![apt_up_upd.png](1/apt_up_upd.png)
+![apt_up_upd.png](screenshots/apt_up_upd.png)
 
 ---
 
@@ -86,7 +86,7 @@ sudo apt upgrade -y
 ```bash
 sudo systemctl status ssh
 ```
-![status_ssh_vm.png](1/status_ssh_vm.png)
+![status_ssh_vm.png](screenshots/status_ssh_vm.png)
 
 ### 4.2. Проброс порта для режима NAT
 
@@ -97,7 +97,7 @@ sudo systemctl status ssh
 | SSH    | TCP      |             | 2222       |             | 22         |
 
 Теперь подключение к порту `2222` на локальном хосте (`127.0.0.1`) перенаправляется на порт `22` виртуальной машины.
-![ssh_port.png](1/ssh_port.png)
+![ssh_port.png](screenshots/ssh_port.png)
 
 ### 4.3. Подключение по паролю
 
@@ -108,7 +108,7 @@ ssh -p 2222 vladislav@127.0.0.1
 ```
 
 После подтверждения fingerprint и ввода пароля пользователя `vladislav` вход выполнен успешно.
-![ssh_mainPC.png](1/ssh_mainPC.png)
+![ssh_mainPC.png](screenshots/ssh_mainPC.png)
 
 ### 4.4. Подключение по ключу
 
@@ -117,7 +117,7 @@ ssh -p 2222 vladislav@127.0.0.1
 ```cmd
 ssh-keygen -t rsa -b 4096
 ```
-![ssh_createkey.png](1/ssh_createkey.png)
+![ssh_createkey.png](screenshots/ssh_createkey.png)
 
 Для настройки беспарольного доступа публичный ключ (`id_rsa.pub`) был скопирован с хост-машины и добавлен в файл `~/.ssh/authorized_keys` гостевой системы вручную через текстовый редактор `nano`.
 
@@ -133,7 +133,7 @@ chmod 600 ~/.ssh/authorized_keys
 ```cmd
 ssh -p 2222 vladislav@127.0.0.1
 ```
-![ssh_without_passw.png](1/ssh_without_passw.png)
+![ssh_without_passw.png](screenshots/ssh_without_passw.png)
 
 ---
 
